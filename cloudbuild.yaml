@@ -1,0 +1,93 @@
+steps:
+  # Build ADK Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/credit-score-adk', '-f', 'credit_score_adk/Dockerfile', '.']
+  
+  # Build CrewAI Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/credit-score-crewai', '-f', 'credit_score_crewai/Dockerfile', '.']
+
+  # Build LangChain Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/credit-score-langchain', '-f', 'credit_score_langchain/Dockerfile', '.']
+
+  # Build Orchestration Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/credit-score-orchestration', '-f', 'credit_score_orchestration/Dockerfile', '.']
+
+  # Push Images to Container Registry (or Artifact Registry)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/credit-score-adk']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/credit-score-crewai']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/credit-score-langchain']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/credit-score-orchestration']
+
+  # Deploy to Cloud Run - ADK
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'credit-score-adk'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/credit-score-adk'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+  # Deploy to Cloud Run - CrewAI
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'credit-score-crewai'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/credit-score-crewai'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+  # Deploy to Cloud Run - LangChain
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'credit-score-langchain'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/credit-score-langchain'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+  # Deploy to Cloud Run - Orchestration
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'credit-score-orchestration'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/credit-score-orchestration'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+# Note: You would typically add deployment steps for all services here or use a separate CD pipeline.
+images:
+  - 'gcr.io/$PROJECT_ID/credit-score-adk'
+  - 'gcr.io/$PROJECT_ID/credit-score-crewai'
+  - 'gcr.io/$PROJECT_ID/credit-score-langchain'
+  - 'gcr.io/$PROJECT_ID/credit-score-orchestration'

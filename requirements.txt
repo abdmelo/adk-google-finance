@@ -1,0 +1,15 @@
+# Framework de Interface Web
+streamlit
+
+# Gerenciamento de Variáveis de Ambiente (.env)
+python-dotenv
+
+# Google Gemini API (SDK Oficial)
+google-generativeai
+
+# LangChain (Orquestração e abstração de LLMs)
+langchain
+langchain-google-genai
+
+# CrewAI (Agentes Autônomos)
+crewai

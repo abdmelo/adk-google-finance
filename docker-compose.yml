@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  adk:
+    build:
+      context: .
+      dockerfile: credit_score_adk/Dockerfile
+    ports:
+      - "8501:8080"
+    env_file:
+      - credit_score_adk/.env
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+
+  crewai:
+    build:
+      context: .
+      dockerfile: credit_score_crewai/Dockerfile
+    ports:
+      - "8502:8080"
+    env_file:
+      - credit_score_crewai/.env
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+
+  langchain:
+    build:
+      context: .
+      dockerfile: credit_score_langchain/Dockerfile
+    ports:
+      - "8503:8080"
+    env_file:
+      - credit_score_langchain/.env
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+
+  orchestration:
+    build:
+      context: .
+      dockerfile: credit_score_orchestration/Dockerfile
+    ports:
+      - "8504:8080"
+    env_file:
+      - credit_score_orchestration/.env
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
