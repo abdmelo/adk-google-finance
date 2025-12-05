@@ -149,3 +149,5 @@ marimo/_lsp/
 __marimo__/
 
 **/.env*
+.venv-win-11/
+**/.venv*/

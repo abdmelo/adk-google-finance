@@ -1,15 +1,75 @@
-# Framework de Interface Web
-streamlit
+# =============================================================================
+# REQUIREMENTS.TXT GERAL - Projeto Multi-Agentes de Análise de Crédito
+# =============================================================================
+# Este arquivo consolida todas as dependências dos 4 projetos:
+# - credit_score_adk (Google ADK)
+# - credit_score_crewai (CrewAI)
+# - credit_score_langchain (LangChain)
+# - credit_score_orchestration (Multi-Agente)
+# =============================================================================
 
-# Gerenciamento de Variáveis de Ambiente (.env)
-python-dotenv
+# -----------------------------------------------------------------------------
+# INTERFACE WEB
+# -----------------------------------------------------------------------------
+# Framework para criação de aplicações web interativas
+streamlit>=1.28.0
 
-# Google Gemini API (SDK Oficial)
-google-generativeai
+# -----------------------------------------------------------------------------
+# GERENCIAMENTO DE VARIÁVEIS DE AMBIENTE
+# -----------------------------------------------------------------------------
+# Gerenciamento de arquivos .env para configurações sensíveis (API Keys)
+python-dotenv>=1.0.0
 
-# LangChain (Orquestração e abstração de LLMs)
-langchain
-langchain-google-genai
+# -----------------------------------------------------------------------------
+# GOOGLE GEMINI API - SDK OFICIAL
+# -----------------------------------------------------------------------------
+# Biblioteca oficial do Google para modelos Gemini (usado em ADK e Orchestration)
+google-generativeai>=0.8.0
 
-# CrewAI (Agentes Autônomos)
-crewai
+# -----------------------------------------------------------------------------
+# LANGCHAIN - ORQUESTRAÇÃO DE LLMs
+# -----------------------------------------------------------------------------
+# Framework para desenvolvimento de aplicações com LLMs
+langchain>=0.1.0
+
+# Integração oficial do LangChain com Google Gemini
+langchain-google-genai>=1.0.0
+
+# Componentes principais do LangChain
+langchain-core>=0.1.0
+
+# -----------------------------------------------------------------------------
+# CREWAI - AGENTES AUTÔNOMOS
+# -----------------------------------------------------------------------------
+# Framework para criação de equipes de agentes autônomos
+# Incluindo extras para integração com Google Gemini
+crewai[google-genai]>=0.11.0
+
+# -----------------------------------------------------------------------------
+# LITELLM - ADAPTER MULTI-LLM
+# -----------------------------------------------------------------------------
+# Biblioteca para normalização de chamadas entre diferentes provedores de LLM
+# Usado pelo CrewAI para integração com múltiplos modelos
+litellm>=1.0.0
+
+# -----------------------------------------------------------------------------
+# VALIDAÇÃO DE DADOS
+# -----------------------------------------------------------------------------
+# Framework de validação de dados (usado por LangChain e CrewAI)
+pydantic>=2.0.0
+
+# -----------------------------------------------------------------------------
+# DEPENDÊNCIAS ADICIONAIS
+# -----------------------------------------------------------------------------
+# Para callbacks e tratamento de tokens (usado no projeto)
+# langchain-community - Ferramentas da comunidade LangChain (se necessário)
+
+# -----------------------------------------------------------------------------
+# NOTAS:
+# -----------------------------------------------------------------------------
+# 1. Versões mínimas especificadas para garantir compatibilidade
+# 2. crewai[google-genai] instala dependências extras para Google Gemini
+# 3. Todas as bibliotecas são compatíveis com Python 3.11+
+# 4. Para instalar: pip install -r requirements.txt
+# 5. Recomenda-se usar ambiente virtual (venv ou conda)
+# =============================================================================

@@ -1,0 +1,44 @@
+# cloudbuild_adk.yaml
+# --------------------------------------------------------------
+# Build & Deploy apenas do projeto credit_score_adk
+# Projeto GCP: XPTO-123
+# --------------------------------------------------------------
+
+substitutions:
+  _PROJECT_ID: "XPTO-123"          # variável fixa para o ID do projeto
+
+steps:
+  # 1️⃣ Build da imagem Docker do ADK
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/${_PROJECT_ID}/credit-score-adk'
+      - '-f'
+      - 'credit_score_adk/Dockerfile'
+      - '.'
+
+  # 2️⃣ Push da imagem para o Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/${_PROJECT_ID}/credit-score-adk'
+
+  # 3️⃣ Deploy no Cloud Run (gerenciado, região us-central1)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'credit-score-adk'
+      - '--image'
+      - 'gcr.io/${_PROJECT_ID}/credit-score-adk'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+# Opcional: indique a imagem que será publicada (útil para o UI do Cloud Build)
+images:
+  - 'gcr.io/${_PROJECT_ID}/credit-score-adk'
